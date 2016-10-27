@@ -1,4 +1,3 @@
-require(data.table)
 require(dplyr)
 #### EX1
 
@@ -42,9 +41,9 @@ ex4 %>%
             net.income = sum(net.income.loss))
 
 #### EX5
-require(reshape2)
+## Option 1
 ex5 <- read.csv("ex5.csv", stringsAsFactors = T)
-
+ex5 <- filter(ex5, Group.Segment=="Big")
 ex5.a <- aggregate(Expenses ~ Service.Month + Paid.Month, ex5, sum)
 
 my.Date <- function(x){
@@ -55,15 +54,11 @@ ex5.a$Service.Month <- my.Date(ex5.a$Service.Month)
 ex5.a$Paid.Month <- my.Date(ex5.a$Paid.Month)
 ex5.a
 
+## Option 2, with reshape2
+require(reshape2)
 ex5$Service.Month <- my.Date(ex5$Service.Month)
 ex5$Paid.Month <- my.Date(ex5$Paid.Month)
-
-## Note that this is already a long dataframe, so we don't have to melt it
-## before calling dcast()
-
-ex5 %>%
-  filter(Group.Segment=="Big") %>%
-  dcast(Service.Month ~ Paid.Month, sum, value.var = "Expenses", margins = T)
+dcast(ex5, Service.Month ~ Paid.Month, sum, value.var = "Expenses", margins = T)
 
 #### EX6
 ex6 <- read.csv("ex6.csv", stringsAsFactors = T)
