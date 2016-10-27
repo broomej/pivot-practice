@@ -41,7 +41,11 @@ ex4 %>%
             net.income = sum(net.income.loss))
 
 #### EX5
-## Option 1
+
+## Two ways came to mind about how to go about this exercise, depending on how
+## You want to present the data
+
+## Option 1, with aggregate
 ex5 <- read.csv("ex5.csv", stringsAsFactors = T)
 ex5 <- filter(ex5, Group.Segment=="Big")
 ex5.a <- aggregate(Expenses ~ Service.Month + Paid.Month, ex5, sum)
